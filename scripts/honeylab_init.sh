@@ -95,7 +95,7 @@ fi
 
 FTPSERVER=$(awk -F "=" '/FTPSERVER/ {print $2}' $HACK_INI)
 if [ $FTPSERVER = "on" ]; then
-	/tmp/busybox tcpsvd -vE 0.0.0.0 21 /tmp/busybox ftpd / &
+	/tmp/busybox tcpsvd -vE 0.0.0.0 21 /tmp/busybox ftpd -w / &
 fi
 
 if [ $RTSPSERVER = "on" ]; then
@@ -110,6 +110,9 @@ source /tmp/mmc/scripts/post.sh
 
 /tmp/mmc/scripts/ftpc_and_schedule.sh &
 /tmp/mmc/scripts/telnet.sh &
+
+# run wlan watchdog
+/tmp/mmc/scripts/wlan_watchdog.sh &
 
 
 while true
